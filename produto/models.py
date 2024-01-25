@@ -25,7 +25,7 @@ class Produto(models.Model):
     
     def get_preco_formatado(self):
         #return f'R$ {self.preco_marketing:.2f}'.replace('.', ',')
-        return utils.format(self.preco_marketing)
+        return utils.formata_preco(self.preco_marketing)
     get_preco_formatado.short_description = 'Preço'
     
     def get_preco_promo_formatado(self):
