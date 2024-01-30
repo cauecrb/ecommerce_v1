@@ -4,7 +4,7 @@ from . import models
 
 class UsuariosForm(forms.ModelForm):
     class Meta:
-        model = models.Usuarios
+        model = models.Usuario
         fields = '__all__'
         exclude = ('usuario',)
 
