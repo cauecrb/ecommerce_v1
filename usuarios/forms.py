@@ -35,9 +35,28 @@ class UserForm(forms.ModelForm):
         cleaned = self.cleaned_data
         validation_error_msgs = {}
         
+        """
+        usuario_data = data['username']
+        password_data = data['password']
+        email_data = data['email']
+        """
+        usuario_data = cleaned.get('username')
+        email_data = cleaned.get('email')
+        password_data = cleaned.get('password')
+        password2_data = cleaned.get('password2')
+        
+        usuario_db = User.objects.filter(username=usuario_data).first()
+        email_db = User.objects.filter(email=email_data).first()
+        
+        error_msg_user_exists = 'Usário já existe'
+        error_msg_email_exists = 'Email já em uso'
+        error_msg_password_match = 'As senhas são diferentes'
+        error_msg_password_short = 'A senha deve ter mais de 5 caracteres'
+
         #usuários logados: atualizar usuário
         if self.usuario:
-            print('LOGADO')
+            if usuario_data != usuario_db:
+                pass
         #usuários não logados: cadastrar
         else:
             pass
