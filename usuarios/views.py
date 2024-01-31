@@ -26,7 +26,8 @@ class BaseUsusarios(View):
 
 
 class Criar(BaseUsusarios):
-    pass
+    def post(self, *args, **kwargs):
+        return self.renderizar
 
 
 class Atualizar(View):
