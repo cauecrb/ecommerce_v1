@@ -52,6 +52,7 @@ class UserForm(forms.ModelForm):
         error_msg_email_exists = 'Email já em uso'
         error_msg_password_match = 'As senhas são diferentes'
         error_msg_password_short = 'A senha deve ter mais de 5 caracteres'
+        error_msg_required = 'Este campo é obrigatótio'
 
         #usuários logados: atualizar usuário
         if self.usuario:
@@ -72,7 +73,24 @@ class UserForm(forms.ModelForm):
                     validation_error_msgs['password'] = error_msg_password_short
         #usuários não logados: cadastrar
         else:
-            pass
+            if usuario_db:
+                    validation_error_msgs['username'] = error_msg_user_exists
+
+            if email_db:
+                    validation_error_msgs['email'] = error_msg_email_exists
+            
+            if not password_data:
+                validation_error_msgs['password'] = error_msg_required
+           
+            if not password2_data:
+                validation_error_msgs['password2'] = error_msg_required
+
+            if password_data != password2_data:
+                    validation_error_msgs['password'] = error_msg_password_match
+                    validation_error_msgs['password2'] = error_msg_password_match
+
+            if len(password_data) < 6:
+                    validation_error_msgs['password'] = error_msg_password_short
         
         if validation_error_msgs:
             raise(forms.ValidationError(validation_error_msgs))
