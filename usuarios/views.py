@@ -14,7 +14,13 @@ class BaseUsusarios(View):
     def setup(self, *args, **kwargs):
         super().setup(*args, **kwargs)
         
+        self.usuarios = None
+                
         if self.request.user.is_authenticated:
+            self.usuarios = models.Usuario.objects.filter(
+                usuario=self.request.user
+            ).first()
+            
             self.contexto = {
                 'userform': forms.UserForm(
                     data=self.request.POST or None,
@@ -24,10 +30,13 @@ class BaseUsusarios(View):
                 'usuariosform': forms.UsuariosForm(data=self.request.POST or None)
             }
         else:
-                        self.contexto = {
+            self.contexto = {
                 'userform': forms.UserForm(data=self.request.POST or None),
                 'usuariosform': forms.UsuariosForm(data=self.request.POST or None)
             }
+        
+        self.userform = self.contexto['userform']
+        self.usuariosform = self.contexto['usuariosform']
         
         
         self.renderizar = render(self.request, self.template_name, self.contexto)
@@ -38,6 +47,14 @@ class BaseUsusarios(View):
 
 class Criar(BaseUsusarios):
     def post(self, *args, **kwargs):
+        if not self.userform.is_valid() or not self.usuariosform.is_valid():
+            print('Invalido')
+            return self.renderizar
+        if self.request.user.is_authenticated:
+            pass
+        else:
+            pass
+            
         return self.renderizar
 
 
